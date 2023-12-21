@@ -3,59 +3,95 @@ dotenv.config();
 import express from "express";
 const app = express();
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import zod from "zod";
-import { loadSummarizationChain } from "langchain/chains";
-import { PromptTemplate } from "langchain/prompts";
+import { SerpAPILoader } from "langchain/document_loaders/web/serpapi";
+import OpenAI from "openai";
 
-const zodSchema = zod.object({
-  kaza_il: zod.string().optional(),
-  kaza_ilçe: zod.string().optional(),
-});
+const outputSchema = {
+  reason: "Reason of accident",
+  location: "District/Town/City",
+  date: "Date of accident",
+};
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on ${process.env.PORT}`);
 });
 
-/*onst schema={
-    "properties":{
-        "where_traffic_accident_happened":{"type":"string"},
-        "reason_of_accident":{"type":"string"}
-    },
-    "required":["where_traffic_accident_happened","reason_of_accident   "]
-}
-*/
+let date = new Date();
+date.setDate(date.getDate() - 1);
+let query = `Aydın trafik kazaları ${date.toLocaleDateString()}`;
 
-async function getData() {
-  /*const response=await axios.get('https://www.aydindenge.com.tr/aydin/17/10/2023/aydinda-feci-kaza-1-kisi-oldu-2-kisi-yaralandi')
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
+console.log(query);
+let searchs = [];
+async function getResponse() {
+  let links = [];
+  if (searchs.length < 1) {
+    console.log("first");
+    const loader = new SerpAPILoader({
+      q: query,
+      apiKey: process.env.SERPAPI_KEY,
+    });
+    const documents = await loader.load();
 
-const $=cheerio.load(response.data)
-const p=$('p').text()
-console.log(p)*/
-  const loader = new CheerioWebBaseLoader(
-    "https://www.aydindenge.com.tr/aydin/17/10/2023/aydinda-feci-kaza-1-kisi-oldu-2-kisi-yaralandi",
-    {
-      selector: "p",
+    documents.forEach((d) => {
+      links.push(JSON.parse(d.pageContent).link);
+    });
+  }
+
+  const filteredLinks = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo-1106",
+    max_tokens: 500,
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are accident detector.Your purpose is detect accidents which happened only in Aydın and filter duplicate news(just give one of them from duplicate news) from given news links and response as a JSON output.Please be aware of that accidents happened in Aydın!",
+      },
+      {
+        role: "user",
+        content: `${links}`,
+      },
+    ],
+    response_format: { type: "json_object" },
+    temperature: 0,
+  });
+
+  //console.log(searchs);
+  JSON.parse(filteredLinks.choices[0].message.content).accidents.forEach(
+    (l) => {
+      searchs.push(l.source);
     }
   );
-  const docs = await loader.load();
 
-  const llm = new ChatOpenAI({
-    temperature: 0,
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    modelName: "gpt-3.5-turbo",
-  });
-  /*
-const cevap=await createExtractionChain(zodSchema,llm).run(docs[0].pageContent)
-console.log(cevap)*/
-  const prompt = PromptTemplate.fromTemplate(
-    "Sana verilen haberden sadece kazanın yerini ve kazanın sebebini bana ver."
-  );
+  //console.log(JSON.parse(searchs[0].pageContent));
+  console.log(searchs);
 
-  const chain = loadSummarizationChain(llm, { type: "stuff" });
-  const cevap = await chain.run(docs);
-  console.log(docs[0].pageContent);
-  console.log(cevap);
+  for await (let link of searchs) {
+    const htmlloader = new CheerioWebBaseLoader(link, {
+      selector: "p,time",
+    });
+    const docs = await htmlloader.load();
+    console.log(docs);
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      max_tokens: 500,
+      messages: [
+        {
+          role: "system",
+          content: `You are accident summarizer.Just give me a reason of an accident,accident location and accident date/time like this schema ${outputSchema}.If any of these infos not given just put it as N/A.`,
+        },
+        {
+          role: "user",
+          content: `${docs[0].pageContent}`,
+        },
+      ],
+      temperature: 0,
+    });
+
+    console.log(completion.choices[0]);
+  }
 }
-getData();
+getResponse();
