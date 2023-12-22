@@ -5,11 +5,12 @@ const app = express();
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import { SerpAPILoader } from "langchain/document_loaders/web/serpapi";
 import OpenAI from "openai";
+import { examples } from "./dummyNews.js";
 
 const outputSchema = {
   reason: "Reason of accident",
   location: "District/Town/City",
-  date: "Date of accident",
+  date_time: "Date of accident",
 };
 
 app.listen(process.env.PORT, () => {
@@ -29,7 +30,6 @@ let searchs = [];
 async function getResponse() {
   let links = [];
   if (searchs.length < 1) {
-    console.log("first");
     const loader = new SerpAPILoader({
       q: query,
       apiKey: process.env.SERPAPI_KEY,
@@ -40,7 +40,7 @@ async function getResponse() {
       links.push(JSON.parse(d.pageContent).link);
     });
   }
-
+  console.log(links);
   const filteredLinks = await openai.chat.completions.create({
     model: "gpt-3.5-turbo-1106",
     max_tokens: 500,
@@ -67,21 +67,21 @@ async function getResponse() {
   );
 
   //console.log(JSON.parse(searchs[0].pageContent));
-  console.log(searchs);
+  // console.log(searchs);
 
   for await (let link of searchs) {
     const htmlloader = new CheerioWebBaseLoader(link, {
       selector: "p,time",
     });
     const docs = await htmlloader.load();
-    console.log(docs);
+    //console.log(docs);
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-1106",
       max_tokens: 500,
       messages: [
         {
           role: "system",
-          content: `You are accident summarizer.Just give me a reason of an accident,accident location and accident date/time like this schema ${outputSchema}.If any of these infos not given just put it as N/A.`,
+          content: `You are accident summarizer.Just give me a reason of an accident,accident location and accident date/time like this schema ${outputSchema}.If any of these infos not given just put it as N/A except date/time.If date/time not exist put date of ${query}.Give me output JSON.There is a output example ${examples}`,
         },
         {
           role: "user",
@@ -89,6 +89,7 @@ async function getResponse() {
         },
       ],
       temperature: 0,
+      response_format: { type: "json_object" },
     });
 
     console.log(completion.choices[0]);
