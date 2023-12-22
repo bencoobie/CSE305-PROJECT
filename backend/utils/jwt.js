@@ -9,6 +9,6 @@ const createTemporaryToken = async (userId, email) => {
     algorithm: "HS512",
     expiresIn: process.env.EXPIRES_IN,
   });
-  return "Bearer " + token;
+  return token;
 };
 export { createTemporaryToken };

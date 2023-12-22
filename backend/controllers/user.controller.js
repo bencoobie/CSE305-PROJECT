@@ -20,7 +20,12 @@ class UserController extends BaseController {
         password: hash,
       })
     );
+    if (error) return this.response(null, error, res);
     let token = await createTemporaryToken(response._id, response.email);
+    res.cookie("token", token, {
+      maxAge: 60 * 60 * 24 * 1000,
+      httpOnly: true,
+    });
     this.response(token, error, res);
   };
   // ! signIn => giris yapma yeri
@@ -29,13 +34,24 @@ class UserController extends BaseController {
     let [user, error] = await errorHandler(
       this.service.query({ email: req.body.email })
     );
-    let hash = user[0].password;
-    if (!user) throw new APIError("Please SignUp !");
-    const result = await checkPass(plaintextPassword, hash);
-    if (result) {
-      let token = await createTemporaryToken(user[0]._id, user[0].email);
-      this.response(token, error, res);
+    if (user.length == 0)
+      this.response(null, { message: "Please SignUp !" }, res);
+    else {
+      let hash = user[0].password;
+      const result = await checkPass(plaintextPassword, hash);
+      if (result) {
+        let token = await createTemporaryToken(user[0]._id, user[0].email);
+        res.cookie("token", token, {
+          maxAge: 60 * 60 * 24 * 1000,
+          httpOnly: true,
+        });
+        this.response(token, error, res);
+      }
     }
+  };
+  logOut = async (req, res) => {
+    await res.clearCookie("token");
+    this.response("Successfully LoggedOut", null, res);
   };
 }
 let usercontroller = new UserController(userService);
