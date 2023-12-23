@@ -59,7 +59,6 @@ async function getResponse() {
     temperature: 0,
   });
 
-  //console.log(searchs);
   JSON.parse(filteredLinks.choices[0].message.content).accidents.forEach(
     (l) => {
       searchs.push(l.source);
@@ -67,7 +66,7 @@ async function getResponse() {
   );
 
   //console.log(JSON.parse(searchs[0].pageContent));
-  // console.log(searchs);
+  console.log(searchs);
 
   for await (let link of searchs) {
     const htmlloader = new CheerioWebBaseLoader(link, {
@@ -81,7 +80,11 @@ async function getResponse() {
       messages: [
         {
           role: "system",
-          content: `You are accident summarizer.Just give me a reason of an accident,accident location and accident date/time like this schema ${outputSchema}.If any of these infos not given just put it as N/A except date/time.If date/time not exist put date of ${query}.Give me output JSON.There is a output example ${examples}`,
+          content: `You are accident summarizer.Your main tasks are these below:
+          1-Just give me a reason of an accident,accident location and accident date/time like this schema ${outputSchema} from given accident new.
+          2-If any of these infos not given just put it as N/A except date/time.
+          3-If date time not exist on given accident new put date of ${query}.      
+          4- Give me output JSON.There is a output example ${examples}`,
         },
         {
           role: "user",
@@ -95,4 +98,4 @@ async function getResponse() {
     console.log(completion.choices[0]);
   }
 }
-getResponse();
+//getResponse();

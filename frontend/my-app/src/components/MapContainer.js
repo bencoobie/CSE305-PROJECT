@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import React, { useState, useEffect } from "react";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 const MapContainer = () => {
   const mapStyles = {
-    height: '400px',
-    width: '600px',
+    height: "400px",
+    width: "600px",
   };
 
   const [location, setLocation] = useState({
@@ -16,16 +16,19 @@ const MapContainer = () => {
     const geocoder = new window.google.maps.Geocoder();
     const { latLng } = event;
 
-    geocoder.geocode({ location: { lat: latLng.lat(), lng: latLng.lng() } }, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          setLocation({
-            lat: latLng.lat(),
-            lng: latLng.lng(),
-          });
+    geocoder.geocode(
+      { location: { lat: latLng.lat(), lng: latLng.lng() } },
+      (results, status) => {
+        if (status === "OK") {
+          if (results[0]) {
+            setLocation({
+              lat: latLng.lat(),
+              lng: latLng.lng(),
+            });
+          }
         }
       }
-    });
+    );
   };
 
   const handleSearch = (address) => {
@@ -33,7 +36,7 @@ const MapContainer = () => {
       const geocoder = new window.google.maps.Geocoder();
 
       geocoder.geocode({ address }, (results, status) => {
-        if (status === 'OK') {
+        if (status === "OK") {
           if (results[0]) {
             setLocation({
               lat: results[0].geometry.location.lat(),
@@ -43,12 +46,12 @@ const MapContainer = () => {
         }
       });
     } else {
-      console.error('Google Maps API henüz yüklenmedi.');
+      console.error("Google Maps API henüz yüklenmedi.");
     }
   };
 
   useEffect(() => {
-    handleSearch('Çaltı Mahallesi aydın çine');
+    handleSearch("Çaltı Mahallesi aydın çine");
   }, []);
 
   useEffect(() => {
@@ -64,9 +67,7 @@ const MapContainer = () => {
   };
 
   return (
-    <LoadScript
-      googleMapsApiKey="apı key"
-    >
+    <LoadScript googleMapsApiKey="">
       <GoogleMap
         mapContainerStyle={mapStyles}
         zoom={13}
@@ -79,7 +80,6 @@ const MapContainer = () => {
 
         <Marker position={location} onLoad={handleMarkerLoad} />
         <Marker position={location} onLoad={handleMarkerLoad} />
-
       </GoogleMap>
     </LoadScript>
   );
