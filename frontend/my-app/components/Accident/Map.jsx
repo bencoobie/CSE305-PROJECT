@@ -7,13 +7,17 @@ import {
   MarkerF,
   CircleF,
   Circle,
+  InfoBox,
+  InfoWindow,
 } from "@react-google-maps/api";
+import { Card } from "../ui/card";
 
 export function MapContainer(props) {
   const [accidentLocation, setAccidentLocation] = useState({
     lat: 37.8380162,
     lng: 27.8455601,
   });
+  const [clicked, isClicked] = useState(false);
   useEffect(() => {
     if (window.google && window.google.maps) {
       const geocoder = new window.google.maps.Geocoder();
@@ -49,6 +53,10 @@ export function MapContainer(props) {
 
   if (loadError) {
     return <h1>HARİTA YÜKLENİRKEN HATA MEYDANA GELDİ</h1>;
+  }
+  function handleCirclelick() {
+    console.log("calisti");
+    return <h1>Clicked</h1>;
   }
   if (!isLoaded) {
     return <h1>Harita yükleniyor..</h1>;
@@ -105,7 +113,16 @@ export function MapContainer(props) {
         center={accidentLocation}
         radius={150}
         options={{ fillColor: "#ff0000", fillOpacity: 0.5 }}
+        onClick={() => isClicked(true)}
       ></Circle>
+      {clicked && (
+        <InfoWindow
+          position={accidentLocation}
+          onCloseClick={() => isClicked(false)}
+        >
+          <h1>{props.reason}</h1>
+        </InfoWindow>
+      )}
     </GoogleMap>
   );
 }
