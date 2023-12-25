@@ -14,6 +14,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { ModeToggle } from "./modetoggle";
 
 const components = [
   {
@@ -69,6 +70,9 @@ export function NavigationMenuDemo() {
               ))}
             </ul>
           </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <ModeToggle></ModeToggle>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
