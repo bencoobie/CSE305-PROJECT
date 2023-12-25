@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import MapContainer from "./Map";
 import { ScrollAreaDemo } from "./ScrollArea";
 import { examples } from "@/../../backend/dummyNews";
+import { DrawerDemo } from "./Drawer";
 
 export default function Accident() {
   const [location, setLocation] = useState("");
@@ -15,6 +16,7 @@ export default function Accident() {
     <div>
       <div className="flex">
         <div className="flex-1 mr-4">
+          <DrawerDemo examples={examples}></DrawerDemo>
           <ScrollAreaDemo
             setLocation={setLocation}
             setReason={setReason}
