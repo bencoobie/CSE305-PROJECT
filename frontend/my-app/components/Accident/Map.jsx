@@ -11,6 +11,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import { Card } from "../ui/card";
+import { Label } from "../ui/label";
 
 export function MapContainer(props) {
   const [accidentLocation, setAccidentLocation] = useState({
@@ -120,7 +121,7 @@ export function MapContainer(props) {
           position={accidentLocation}
           onCloseClick={() => isClicked(false)}
         >
-          <h1>{props.reason}</h1>
+          <Label className="text-black">{props.reason}</Label>
         </InfoWindow>
       )}
     </GoogleMap>
