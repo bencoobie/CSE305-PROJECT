@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 const app = express();
+
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import { SerpAPILoader } from "langchain/document_loaders/web/serpapi";
 import OpenAI from "openai";
@@ -13,9 +14,20 @@ const outputSchema = {
   date_time: "Date of accident",
 };
 
+import { mongoDBConnection } from "./config/db.connection.js";
+import { router } from "./routes/index.js";
+import cookikeParser from "cookie-parser";
+mongoDBConnection();
+app.use(express.urlencoded());
+app.use(express.json());
+app.use(cookikeParser());
+app.use(router);
+
+
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on ${process.env.PORT}`);
 });
+
 
 let date = new Date();
 date.setDate(date.getDate() - 1);
@@ -99,3 +111,4 @@ async function getResponse() {
   }
 }
 //getResponse();
+
