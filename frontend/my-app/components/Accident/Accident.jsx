@@ -15,19 +15,19 @@ export default function Accident() {
   return (
     <div>
       <div className="flex">
-        <div className="flex-1 mr-4">
-          <DrawerDemo examples={examples}></DrawerDemo>
+        <div className="flex-1">
+          <DrawerDemo className="" examples={examples}></DrawerDemo>
           <ScrollAreaDemo
             setLocation={setLocation}
             setReason={setReason}
           ></ScrollAreaDemo>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 position fixed ml-[750px] ">
           <MapContainer
             location={location}
             examples={examples}
-            reason={reason}
-          ></MapContainer>
+            reason={reason}>
+          </MapContainer>
         </div>
       </div>
     </div>

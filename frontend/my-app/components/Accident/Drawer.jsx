@@ -80,8 +80,8 @@ export function DrawerDemo(props) {
 
   return (
     <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="outline">Kaza Grafiğini Gör</Button>
+      <DrawerTrigger className="rounded-xl" asChild>
+        <Button className="text-lg ml-5 mt-5 mb-[-10px] w-[700px] rounded-xl shadow-lg py-6 px-8" variant="outline">Kaza Grafiğini Gör</Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">

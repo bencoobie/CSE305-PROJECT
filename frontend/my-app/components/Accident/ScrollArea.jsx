@@ -27,11 +27,11 @@ export function ScrollAreaDemo(props) {
   });
 
   return (
-    <ScrollArea className="h-96 w-96 rounded-md border">
+    <ScrollArea className=" w-[700px] rounded-md border ml-5 mt-5">
       <div className="p-4">
-        <h4 className="mb-4 text-sm font-medium leading-none">Accidents</h4>
+        <h4 className="mb-4 text-center font-medium leading-none text-2xl">ACCIDENTS</h4>
 
-        <Input
+        <Input className="ml-2 mb-3 w-[650px]"
           placeholder="Filtrelemek İstediğiniz konumu girin"
           onChange={(event) => {
             setFiltered(event.target.value);
@@ -42,9 +42,9 @@ export function ScrollAreaDemo(props) {
           filteredarr.map((accident, index) => (
             <>
               <div key={index} className="text-sm">
-                <Card className="w-[350px]">
+                <Card className="ml-2 w-[650px]">
                   <CardHeader>
-                    <CardTitle>{index + 1}</CardTitle>
+                    <CardTitle className="text-center">{index + 1}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid w-full items-center gap-4">
@@ -67,7 +67,7 @@ export function ScrollAreaDemo(props) {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button
+                    <Button className="ml-[220px] bg-gradient-to-r rounded-xl shadow-lg py-6 px-8"
                       onClick={() =>
                         handleClick(accident.location, accident.reason)
                       }

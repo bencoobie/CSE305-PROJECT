@@ -40,8 +40,8 @@ export function MapContainer(props) {
   }, [props.location]);
 
   const mapStyles = {
-    height: "400px",
-    width: "600px",
+    height: "500px",
+    width: "47vw",
   };
   /*const center = {
     lat: 37.8380162,
@@ -105,7 +105,8 @@ export function MapContainer(props) {
   //handleSearch("Işıklar Mahallesi,Nazilli,Aydın");
 
   return (
-    <GoogleMap
+   <div className="ml-[10px] mt-5 rounded-lg">
+     <GoogleMap
       mapContainerStyle={mapStyles}
       zoom={13}
       center={accidentLocation}
@@ -125,6 +126,7 @@ export function MapContainer(props) {
         </InfoWindow>
       )}
     </GoogleMap>
+   </div>
   );
 }
 
