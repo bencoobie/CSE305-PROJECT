@@ -59,12 +59,12 @@ const data = [
 export function DrawerDemo(props) {
   const parsedData = props.examples.map((item) => ({
     ...item,
-    date_time: item.date_time === "N/A" ? null : new Date(item.date_time),
+    date_time: item.date === "N/A" ? null : new Date(item.date),
   }));
 
   // Count Accidents by Date
   const accidentCountByDate = parsedData.reduce((acc, item) => {
-    const dateKey = item.date_time?.toLocaleDateString() || "Unknown";
+    const dateKey = new Date(item.date).toLocaleDateString() || "Unknown";
 
     acc[dateKey] = (acc[dateKey] || 0) + 1;
     return acc;
@@ -81,7 +81,12 @@ export function DrawerDemo(props) {
   return (
     <Drawer>
       <DrawerTrigger className="rounded-xl" asChild>
-        <Button className="text-lg ml-5 mt-5 mb-[-10px] w-[700px] rounded-xl shadow-lg py-6 px-8" variant="outline">Kaza Grafiğini Gör</Button>
+        <Button
+          className="text-lg ml-5 mt-5 mb-[-10px] w-[700px] rounded-xl shadow-lg py-6 px-8"
+          variant="outline"
+        >
+          Kaza Grafiğini Gör
+        </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">

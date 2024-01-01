@@ -23,15 +23,18 @@ export function ScrollAreaDemo(props) {
   };
   const [filtered, setFiltered] = React.useState("");
   const filteredarr = examples.filter((a) => {
-    return a.location.toLowerCase().includes(filtered.toLowerCase());
+    return a.detail_location.toLowerCase().includes(filtered.toLowerCase());
   });
 
   return (
     <ScrollArea className=" w-[700px] rounded-md border ml-5 mt-5">
       <div className="p-4">
-        <h4 className="mb-4 text-center font-medium leading-none text-2xl">ACCIDENTS</h4>
+        <h4 className="mb-4 text-center font-medium leading-none text-2xl">
+          ACCIDENTS
+        </h4>
 
-        <Input className="ml-2 mb-3 w-[650px]"
+        <Input
+          className="ml-2 mb-3 w-[650px]"
           placeholder="Filtrelemek İstediğiniz konumu girin"
           onChange={(event) => {
             setFiltered(event.target.value);
@@ -49,27 +52,43 @@ export function ScrollAreaDemo(props) {
                   <CardContent>
                     <div className="grid w-full items-center gap-4">
                       <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="name">Reason:{accident.reason}</Label>
+                        <Label htmlFor="name">Title:{accident.title}</Label>
                         <Separator className="my-2" />
                       </div>
                       <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="framework">
-                          Location:{accident.location}
+                        <Label htmlFor="name">
+                          Reason:{accident.description}
+                        </Label>
+                        <Separator className="my-2" />
+                      </div>
+                      <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="name">
+                          Plates:{accident.license_plate}
                         </Label>
                         <Separator className="my-2" />
                       </div>
                       <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="framework">
-                          Date:{accident.date_time}
+                          Location:{accident.detail_location}
+                        </Label>
+                        <Separator className="my-2" />
+                      </div>
+                      <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="framework" suppressHydrationWarning>
+                          Date:{new Date(accident.date).toLocaleDateString()}
                         </Label>
                         <Separator className="my-2" />
                       </div>
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button className="ml-[220px] bg-gradient-to-r rounded-xl shadow-lg py-6 px-8"
+                    <Button
+                      className="ml-[220px] bg-gradient-to-r rounded-xl shadow-lg py-6 px-8"
                       onClick={() =>
-                        handleClick(accident.location, accident.reason)
+                        handleClick(
+                          accident.detail_location,
+                          accident.description
+                        )
                       }
                     >
                       Konuma git
