@@ -11,9 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { examples } from "../../../../backend/dummyNews";
 import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 
 export function ScrollAreaDemo(props) {
@@ -22,7 +20,17 @@ export function ScrollAreaDemo(props) {
     props.setReason(reason);
   };
   const [filtered, setFiltered] = React.useState("");
-  const filteredarr = examples.filter((a) => {
+  const [accidents, setAccidents] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("http://localhost:3000/accident")
+      .then((res) => res.json())
+      .then((data) => {
+        setAccidents(data);
+      });
+  }, []);
+
+  const filteredarr = accidents.filter((a) => {
     return a.detail_location.toLowerCase().includes(filtered.toLowerCase());
   });
 

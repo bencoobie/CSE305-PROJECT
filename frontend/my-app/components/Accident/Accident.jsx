@@ -8,10 +8,7 @@ import { DrawerDemo } from "./Drawer";
 export default function Accident() {
   const [location, setLocation] = useState("");
   const [reason, setReason] = useState("");
-  useEffect(() => {
-    console.log(location);
-    console.log(reason);
-  }, [location]);
+
   return (
     <div>
       <div className="flex">
@@ -26,8 +23,8 @@ export default function Accident() {
           <MapContainer
             location={location}
             examples={examples}
-            reason={reason}>
-          </MapContainer>
+            reason={reason}
+          ></MapContainer>
         </div>
       </div>
     </div>

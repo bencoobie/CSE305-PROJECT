@@ -30,12 +30,10 @@ export function MapContainer(props) {
               lat: results[0].geometry.location.lat(),
               lng: results[0].geometry.location.lng(),
             });
-            console.log(results[0].geometry.location.lat());
           }
         }
       });
     } else {
-      console.error("Google Maps API henüz yüklenmedi.");
     }
   }, [props.location]);
 
@@ -54,10 +52,6 @@ export function MapContainer(props) {
 
   if (loadError) {
     return <h1>HARİTA YÜKLENİRKEN HATA MEYDANA GELDİ</h1>;
-  }
-  function handleCirclelick() {
-    console.log("calisti");
-    return <h1>Clicked</h1>;
   }
   if (!isLoaded) {
     return <h1>Harita yükleniyor..</h1>;
@@ -93,40 +87,38 @@ export function MapContainer(props) {
               lat: results[0].geometry.location.lat(),
               lng: results[0].geometry.location.lng(),
             });
-            console.log(results[0].geometry.location.lat());
           }
         }
       });
     } else {
-      console.error("Google Maps API henüz yüklenmedi.");
     }
   };
 
   //handleSearch("Işıklar Mahallesi,Nazilli,Aydın");
 
   return (
-   <div className="ml-[10px] mt-5 rounded-lg">
-     <GoogleMap
-      mapContainerStyle={mapStyles}
-      zoom={13}
-      center={accidentLocation}
-    >
-      <Circle
+    <div className="ml-[10px] mt-5 rounded-lg">
+      <GoogleMap
+        mapContainerStyle={mapStyles}
+        zoom={13}
         center={accidentLocation}
-        radius={150}
-        options={{ fillColor: "#ff0000", fillOpacity: 0.5 }}
-        onClick={() => isClicked(true)}
-      ></Circle>
-      {clicked && (
-        <InfoWindow
-          position={accidentLocation}
-          onCloseClick={() => isClicked(false)}
-        >
-          <Label className="text-black">{props.reason}</Label>
-        </InfoWindow>
-      )}
-    </GoogleMap>
-   </div>
+      >
+        <Circle
+          center={accidentLocation}
+          radius={150}
+          options={{ fillColor: "#ff0000", fillOpacity: 0.5 }}
+          onClick={() => isClicked(true)}
+        ></Circle>
+        {clicked && (
+          <InfoWindow
+            position={accidentLocation}
+            onCloseClick={() => isClicked(false)}
+          >
+            <Label className="text-black">{props.reason}</Label>
+          </InfoWindow>
+        )}
+      </GoogleMap>
+    </div>
   );
 }
 
