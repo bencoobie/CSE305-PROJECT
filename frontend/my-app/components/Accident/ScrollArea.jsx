@@ -26,7 +26,10 @@ export function ScrollAreaDemo(props) {
     fetch("http://localhost:3000/accident")
       .then((res) => res.json())
       .then((data) => {
-        setAccidents(data);
+        const sortedAccidents = data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+        setAccidents(sortedAccidents);
       });
   }, []);
 

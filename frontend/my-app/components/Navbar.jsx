@@ -1,6 +1,12 @@
 "use client";
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>;
 
 import * as React from "react";
 import Link from "next/link";
@@ -21,12 +27,12 @@ import { ModeToggle } from "./modetoggle";
 const components = [
   {
     title: "How to use",
-    href: "",
+    href: "/about",
     description: "Soon...",
   },
   {
     title: "Who we are",
-    href: "",
+    href: "/whoweare",
     description: "Soon...",
   },
 ];
@@ -36,7 +42,9 @@ export function NavigationMenuDemo() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-gradient-to-r  rounded-xl shadow-lg py-6 px-8">Home</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="bg-gradient-to-r  rounded-xl shadow-lg py-6 px-8">
+            Home
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="ml-auto grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="col-span-full">
@@ -58,17 +66,17 @@ export function NavigationMenuDemo() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8">About</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8">
+            About
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
+                <Link href={component.href}>
+                  <ListItem key={component.title} title={component.title}>
+                    {component.description}
+                  </ListItem>
+                </Link>
               ))}
             </ul>
           </NavigationMenuContent>
