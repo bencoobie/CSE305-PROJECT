@@ -1,5 +1,7 @@
 import { NavigationMenuDemo } from "@/components/Navbar";
+import Image from "next/image";
 import Link from "next/link";
+import image from "../../public/howtouse.jpeg";
 
 export default function About() {
   return (
@@ -22,14 +24,25 @@ export default function About() {
                       Goal of the Project
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400 mt-2 font-bold ">
-                      Our project is to capture the news of traffic accidents in Aydın province and have it interpreted by ChatGPT via LangChain.
+                      Our project is to capture the news of traffic accidents in
+                      Aydın province and have it interpreted by ChatGPT via
+                      LangChain.
                     </p>
                     <ul className="list-disc list-inside mt-4 text-gray-600 dark:text-gray-400">
-                      <li>Determining the locations of traffic accidents in Aydın by examining the captured data.</li>
-                      <li>Determining the dates on which accidents occur most frequently by examining the dates of the captured data.</li>
+                      <li>
+                        Determining the locations of traffic accidents in Aydın
+                        by examining the captured data.
+                      </li>
+                      <li>
+                        Determining the dates on which accidents occur most
+                        frequently by examining the dates of the captured data.
+                      </li>
                       <li>Display of accident dates in graphics.</li>
                       <li>Filtering accident data by location.</li>
-                      <li>Minimization of accidents in Aydın province through the data provided above.</li>
+                      <li>
+                        Minimization of accidents in Aydın province through the
+                        data provided above.
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -45,28 +58,46 @@ export default function About() {
                       Below is how the project works step by step:
                     </p>
                     <ul className="list-disc list-inside mt-4 text-gray-600 dark:text-gray-400">
-                      <li>Firstly, accident news is accessed via Google Search API.</li>
-                      <li>All data on the news site is transferred to ChatGPT via LangChain.</li>
-                      <li>Data is interpreted by ChatGPT via OpenAI API key.</li>
-                      <li>Interpreted data is filtered according to certain characteristics.</li>
-                      <li>Filtered data is saved to the Database at regular intervals (via an agent).</li>
-                      <li>The recorded data is shown on our website and the location of the accident on the map is shown with the "go to location" button on our website.</li>
-                      <li>At the same time, the graph of accidents according to dates is shown with the "View Accident Graph" button.</li>
+                      <li>
+                        Firstly, accident news is accessed via Google Search
+                        API.
+                      </li>
+                      <li>
+                        All data on the news site is transferred to ChatGPT via
+                        LangChain.
+                      </li>
+                      <li>
+                        Data is interpreted by ChatGPT via OpenAI API key.
+                      </li>
+                      <li>
+                        Interpreted data is filtered according to certain
+                        characteristics.
+                      </li>
+                      <li>
+                        Filtered data is saved to the Database at regular
+                        intervals (via an agent).
+                      </li>
+                      <li>
+                        The recorded data is shown on our website and the
+                        location of the accident on the map is shown with the
+                        "go to location" button on our website.
+                      </li>
+                      <li>
+                        At the same time, the graph of accidents according to
+                        dates is shown with the "View Accident Graph" button.
+                      </li>
                     </ul>
                   </div>
                 </div>
               </div>
-             
+
               <div className="w-[1000px]">
                 <div className="flex flex-col space-y-2 mt-[30px]">
                   <div className="bg-white dark:bg-gray-700 shadow rounded-lg p-6">
-                    
+                    <Image src={image}></Image>
                   </div>
                 </div>
               </div>
-             
-
-
             </div>
           </div>
         </div>

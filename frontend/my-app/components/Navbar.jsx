@@ -30,11 +30,6 @@ const components = [
     href: "/about",
     description: "Soon...",
   },
-  {
-    title: "Who we are",
-    href: "/whoweare",
-    description: "Soon...",
-  },
 ];
 
 export function NavigationMenuDemo() {
