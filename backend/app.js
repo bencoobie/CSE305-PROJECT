@@ -5,6 +5,7 @@ const app = express();
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import { SerpAPILoader } from "langchain/document_loaders/web/serpapi";
 import OpenAI from "openai";
+import { crontime } from "../backend/dummyNews.js";
 
 import { mongoDBConnection } from "./config/db.connection.js";
 import { router } from "./routes/index.js";
@@ -25,6 +26,45 @@ app.listen(process.env.PORT, () => {
   console.log(`Server listening on ${process.env.PORT}`);
 });
 
+app.post("/", async (req, res) => {
+  console.log("CALİSTİ");
+
+  try {
+    let date = new Date();
+    date.setDate(date.getDate() - 1);
+    let q;
+    if (req.body.site.length < 1 && req.body.ilce.length < 1) {
+      q = `Aydın trafik kazaları ${date.toLocaleDateString()}`;
+    } else {
+      q = `Aydın ${req.body.ilce} trafik kazaları ${req.body.site}`;
+    }
+
+    const result = await getJson({
+      engine: "google_news",
+      api_key: process.env.SERPAPI_KEY,
+      q: q,
+    });
+
+    for await (let link of result.news_results) {
+      console.log(link);
+
+      const htmlloader = new CheerioWebBaseLoader(link.link, {
+        selector: "p,time,span.date",
+      });
+      const docs = await htmlloader.load();
+      console.log(docs[0].pageContent);
+      if (docs[0].pageContent) {
+        let data = {
+          title: docs[0].pageContent,
+        };
+        await accidentservice.insert(data);
+      }
+    }
+    return res.status(200).json({ message: "Success" });
+  } catch (err) {
+    return res.status(400).json({ message: "Error" });
+  }
+});
 async function scrapeOld() {
   try {
     const result = await getJson({

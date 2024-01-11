@@ -227,3 +227,5 @@ export const examples = [
     date: "2023-11-19T08:34:00.000Z",
   },
 ];
+
+export const crontime = ["* * * * * ", "* * * * * *"];

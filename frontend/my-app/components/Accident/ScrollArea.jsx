@@ -34,8 +34,11 @@ export function ScrollAreaDemo(props) {
   }, []);
 
   const filteredarr = accidents.filter((a) => {
-    return a.detail_location.toLowerCase().includes(filtered.toLowerCase());
+    if (a.detail_location) {
+      return a.detail_location.toLowerCase().includes(filtered.toLowerCase());
+    }
   });
+  const nonfilteredarr = accidents.filter((a) => !a.detail_location);
 
   return (
     <ScrollArea className=" w-[700px] rounded-md border ml-5 mt-5">
@@ -105,6 +108,35 @@ export function ScrollAreaDemo(props) {
                       Konuma git
                     </Button>
                   </CardFooter>
+                </Card>
+              </div>
+              <Separator className="my-2" />
+            </>
+          ))
+        ) : (
+          <>
+            <Label>Aradığınız konuma ait kaza bulunamadı.</Label>
+          </>
+        )}
+        {nonfilteredarr.length > 0 ? (
+          nonfilteredarr.map((accident, index) => (
+            <>
+              <div key={index} className="text-sm">
+                <Card className="ml-2 w-[650px]">
+                  <CardHeader>
+                    <CardTitle className="text-center">
+                      Düzensiz veri {index + 1}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid w-full items-center gap-4">
+                      <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="name">Title:{accident.title}</Label>
+                        <Separator className="my-2" />
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter></CardFooter>
                 </Card>
               </div>
               <Separator className="my-2" />

@@ -1,12 +1,11 @@
-import Login from "@/components/Login/login";
 import { NavigationMenuDemo } from "@/components/Navbar";
+import Dashboard from "@/components/dashboard/dashboard";
 
-export default function LoginPage() {
+export default function DashboardPage() {
   return (
     <div>
       <NavigationMenuDemo></NavigationMenuDemo>
-
-      <Login></Login>
+      <Dashboard></Dashboard>
     </div>
   );
 }

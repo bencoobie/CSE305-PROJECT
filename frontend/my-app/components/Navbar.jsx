@@ -23,7 +23,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { ModeToggle } from "./modetoggle";
-
+import { supabase } from "@/supabase";
 const components = [
   {
     title: "How to use",
@@ -39,72 +39,160 @@ const login = [
     description: "",
   },
 ];
+const logout = [
+  {
+    title: "Logout",
+    href: "/",
+    description: "",
+  },
+];
+const dashboard = [
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+    description: "",
+  },
+];
 
 export function NavigationMenuDemo() {
+  const [user, setUser] = React.useState();
+  supabase.auth
+    .getUser()
+    .then((u) => {
+      setUser(u.data.user);
+    })
+    .catch((err) => {});
+
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-gradient-to-r  rounded-xl shadow-lg py-6 px-8">
-            Home
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="ml-auto grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="col-span-full">
-                <NavigationMenuLink asChild>
-                  <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/"
-                  >
-                    <Icons.car className="h-6 w-6" />
-                    <div className="mb-2 mt-4 text-lg font-medium">CSE305</div>
-                    <p className="ml-[text-sm leading-tight text-muted-foreground">
-                      Autonomous Agent-Based Traffic Accident Database Creation
-                      and Accident Prediction
-                    </p>
-                  </a>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8">
-            About
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {components.map((component) => (
-                <Link href={component.href}>
-                  <ListItem key={component.title} title={component.title}>
-                    {component.description}
-                  </ListItem>
-                </Link>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8">
-            Login
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
-              {login.map((component) => (
-                <Link href={component.href}>
-                  <ListItem key={component.title} title={component.title}>
-                    {component.description}
-                  </ListItem>
-                </Link>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <ModeToggle></ModeToggle>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+    <div>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="bg-gradient-to-r  rounded-xl shadow-lg py-6 px-8">
+              Home
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="ml-auto grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                <li className="col-span-full">
+                  <NavigationMenuLink asChild>
+                    <a
+                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                      href="/"
+                    >
+                      <Icons.car className="h-6 w-6" />
+                      <div className="mb-2 mt-4 text-lg font-medium">
+                        CSE305
+                      </div>
+                      <p className="ml-[text-sm leading-tight text-muted-foreground">
+                        Autonomous Agent-Based Traffic Accident Database
+                        Creation and Accident Prediction
+                      </p>
+                    </a>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8">
+              About
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                {components.map((component) => (
+                  <Link href={component.href}>
+                    <ListItem key={component.title} title={component.title}>
+                      {component.description}
+                    </ListItem>
+                  </Link>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          {!user && (
+            <NavigationMenuItem>
+              <NavigationMenuTrigger
+                className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8"
+                suppressHydrationWarning
+              >
+                Login
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
+                  {login.map((component) => (
+                    <Link href={component.href}>
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        suppressHydrationWarning
+                      >
+                        {component.description}
+                      </ListItem>
+                    </Link>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          )}
+          {user && (
+            <NavigationMenuItem>
+              <NavigationMenuTrigger
+                className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8"
+                suppressHydrationWarning
+              >
+                Dashboard
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
+                  {dashboard.map((component) => (
+                    <Link href={component.href}>
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        suppressHydrationWarning
+                      >
+                        {component.description}
+                      </ListItem>
+                    </Link>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          )}
+
+          {user && (
+            <NavigationMenuItem>
+              <NavigationMenuTrigger
+                className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8"
+                suppressHydrationWarning
+              >
+                Logout
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
+                  {logout.map((component) => (
+                    <Link href={component.href}>
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        suppressHydrationWarning
+                        onClick={() => supabase.auth.signOut()}
+                      >
+                        {component.description}
+                      </ListItem>
+                    </Link>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          )}
+
+          <NavigationMenuItem>
+            <ModeToggle></ModeToggle>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   );
 }
 
