@@ -32,6 +32,14 @@ const components = [
   },
 ];
 
+const login = [
+  {
+    title: "Login",
+    href: "/login",
+    description: "",
+  },
+];
+
 export function NavigationMenuDemo() {
   return (
     <NavigationMenu>
@@ -67,6 +75,22 @@ export function NavigationMenuDemo() {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (
+                <Link href={component.href}>
+                  <ListItem key={component.title} title={component.title}>
+                    {component.description}
+                  </ListItem>
+                </Link>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className="bg-gradient-to-r rounded-xl shadow-lg py-6 px-8">
+            Login
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
+              {login.map((component) => (
                 <Link href={component.href}>
                   <ListItem key={component.title} title={component.title}>
                     {component.description}
