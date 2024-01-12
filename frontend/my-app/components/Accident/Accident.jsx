@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MapContainer from "./Map";
 import { ScrollAreaDemo } from "./ScrollArea";
 import { examples } from "@/../../backend/dummyNews";

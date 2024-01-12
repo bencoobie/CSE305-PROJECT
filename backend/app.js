@@ -5,7 +5,6 @@ const app = express();
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import { SerpAPILoader } from "langchain/document_loaders/web/serpapi";
 import OpenAI from "openai";
-import { crontime } from "../backend/dummyNews.js";
 
 import { mongoDBConnection } from "./config/db.connection.js";
 import { router } from "./routes/index.js";

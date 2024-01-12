@@ -1,6 +1,5 @@
 import { NavigationMenuDemo } from "@/components/Navbar";
 import Image from "next/image";
-import Link from "next/link";
 import image from "../../public/howtouse.jpeg";
 
 export default function About() {
