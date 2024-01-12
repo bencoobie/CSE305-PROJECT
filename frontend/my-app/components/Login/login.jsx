@@ -40,15 +40,15 @@ export default function Login() {
   });
 
   return (
-    <div>
+    <div className="text-center">
       <Card>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-4xl">Login</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
+            <Label htmlFor="email">E-mail</Label>
+            <Input className="w-[700px] ml-[395px]"
               id="email"
               type="email"
               placeholder="m@example.com"
@@ -59,7 +59,7 @@ export default function Login() {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input
+            <Input className="w-[700px] ml-[395px]"
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
@@ -70,7 +70,7 @@ export default function Login() {
         </CardContent>
         <CardFooter>
           <Button
-            className="w-full"
+            className="w-[200px] ml-[650px]"
             onClick={async () => {
               await login();
             }}

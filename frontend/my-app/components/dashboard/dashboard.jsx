@@ -36,15 +36,15 @@ export default function Dashboard() {
   return (
     <>
       {!success ? (
-        <div>
+        <div className="text-center place-items-center place-content-center">
           <Label>
             Her gece 00:00'da dün meydana gelen trafik kazaları otomatik olarak
-            çekilmektedir.Aşğıda isteğe göre filtreleme yapıp o filtrelere göre
+            çekilmektedir.Aşağıda isteğe göre filtreleme yapıp o filtrelere göre
             veri çekilebilir.Her şey boş bırakılırsa dün meydana gelen trafik
             kazaları şimdi çekilecektir.
           </Label>
 
-          <Input
+          <Input className="mt-[40px] text-center w-[800px] ml-[360px]"
             onChange={(event) => {
               setSite(event.target.value);
             }}
@@ -52,7 +52,7 @@ export default function Dashboard() {
             type="text"
             placeholder="Arama yapmak istediğiniz haber sitesi urlini giriniz."
           />
-          <Input
+          <Input className="w-[800px] mx-[360px] mt-[15px] text-center"
             onChange={(event) => {
               setIlce(event.target.value);
             }}
@@ -60,7 +60,7 @@ export default function Dashboard() {
             type="text"
             placeholder="Arama yapmak istediğiniz ilceyi giriniz."
           />
-          <Button onClick={() => handleClick()}>Work Agent</Button>
+          <Button className=" mt-[30px]" onClick={() => handleClick()}>Work Agent</Button>
         </div>
       ) : (
         <>

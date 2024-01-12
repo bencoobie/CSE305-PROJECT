@@ -6,7 +6,7 @@ export default function LoginPage() {
     <div>
       <NavigationMenuDemo></NavigationMenuDemo>
 
-      <Login></Login>
+      <Login className="mb-10"></Login>
     </div>
   );
 }
